@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: xyroplay
+    runtime: docker
+    plan: 0.5c-512mb
+    region: singapore
+    branch: main
+    numInstances: 1
+    autoDeployTrigger: 'off'
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    disk:
+      name: xyroplay-data
+      mountPath: /var/lib/xyroplay
+      sizeGB: 1
+    envVars:
+      - key: XYROPLAY_DB
+        value: /var/lib/xyroplay/xyroplay.sqlite3
+      - key: TRUST_PROXY_HOPS
+        value: "1"
+      - key: XYRO_ALLOWED_ORIGINS
+        value: https://appassets.androidplatform.net
+      - key: SYNOX_API_KEY
+        value: ""

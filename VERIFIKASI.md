@@ -18,7 +18,7 @@ Tooling: skrip Python dikompilasi, skrip shell diperiksa dengan `bash -n`, dan s
 
 ## Pemeriksaan yang sengaja belum lolos
 
-`release_preflight.py` menolak konfigurasi saat ini karena backend, identitas/email pengelola dan kebijakan privasi produksi belum lengkap. Penolakan ini diharapkan dan melindungi dari build produksi yang mengklaim siap padahal belum siap. Build uji menggunakan flag khusus dan diberi label/versi uji.
+`release_preflight.py` tetap menolak konfigurasi: backend publik belum diisi dan konfigurasi/kebijakan masih draf. Identitas publik `xyro` serta email `agus1234567pa@gmail.com` sudah diisi. Penolakan ini diharapkan dan melindungi dari build produksi yang mengklaim siap padahal belum siap. Build uji menggunakan flag khusus dan diberi label/versi uji.
 
 `/api/capabilities` lokal mengembalikan `online:false`; tidak ada kunci Synox baru dan tidak ada fitur penyedia yang dinyatakan sudah berfungsi. Kehadiran kunci nantinya hanya menandakan konfigurasi, bukan bukti semua endpoint berfungsi.
 
@@ -29,3 +29,11 @@ Belum menjalankan aplikasi di emulator atau ponsel Android. Penyimpanan file SAF
 Docker tidak tersedia, sehingga container, Compose runtime, Caddy/TLS dan deployment VPS belum dijalankan. Belum ada backend publik aktif, DNS atau domain baru. Akun admin produksi belum dibuat. Kunci lama belum dicabut karena memerlukan akun penyedia pemilik.
 
 Belum mengakses atau mengirim aplikasi ke Play Console, menyetujui biaya hosting, mengisi deklarasi hukum/Data safety/rating, atau mengklaim persetujuan toko. Key baru bukan pengganti signing key aplikasi yang sudah terbit. Cadangan key/password disimpan terpisah dari source dan GitHub.
+
+## Lanjutan persiapan Render dan kontak publik
+
+Konfigurasi Render ditambahkan untuk satu instance Docker di Singapore, disk persisten 1 GB, database di dalam mount disk, health check, dan deployment otomatis dimatikan. Belum dibuat layanan atau pengeluaran hosting. GitHub dan Render berhasil diakses; akses bukan persetujuan untuk deploy/pembelian.
+
+Lima tes konfigurasi Render lulus (`python3 -m unittest discover -s tests -p test_render_config.py -v`; membutuhkan PyYAML di lingkungan tes). Tes memeriksa pemilihan instance, disk/DB, key kosong, health path, port dinamis, penolakan injeksi shell pada port, serta file runtime container. Mutasi filesystem dan pergantian user di-stub: ini bukan bukti container/disk Render sudah berjalan. `sh -n` lulus. Docker masih tidak tersedia.
+
+APK dan AAB uji dibangun ulang memakai upload key yang sama agar identitas/kontak ikut tersalin ke aset Android. Build `testDebugUnitTest lintRelease bundleRelease assembleRelease` berhasil; pemeriksaan kesamaan seluruh aset AAB lulus. Signature APK diverifikasi `apksigner` (v2) dan AAB `jarsigner` (peringatan self-signed/tanpa timestamp tetap ada). Belum merupakan build produksi, uji perangkat, atau persetujuan Play Store.

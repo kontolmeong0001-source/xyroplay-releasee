@@ -1,6 +1,6 @@
 # XyroPlay — paket Android lanjutan
 
-Paket ini melengkapi versi HTML menjadi frontend, backend akun, dan aplikasi Android. **APK dan AAB yang dibagikan adalah build signed untuk pengujian, bukan rilis siap Play Store.** Backend Android masih belum dihubungkan dan fitur pihak ketiga belum aktif. Kebijakan privasi masih draf karena identitas/kontak pengelola belum diberikan.
+Paket ini melengkapi versi HTML menjadi frontend, backend akun, dan aplikasi Android. **APK dan AAB yang dibagikan adalah build signed untuk pengujian, bukan rilis siap Play Store.** Backend Android masih belum dihubungkan dan fitur pihak ketiga belum aktif. Pengelola publik sudah diisi `xyro`, dengan kontak `agus1234567pa@gmail.com`. Kebijakan privasi masih draf sampai hosting, operasi data dan rilis disetujui.
 
 ## Sudah dibuat
 
@@ -47,7 +47,7 @@ Username/password diminta interaktif; tidak ada password default. Default role o
 
 ## Mengaktifkan produksi
 
-Sediakan server/domain milik pengelola serta API key baru yang sah. Lihat `deploy/README.md`. Tidak ada server berbayar dibuat dan tidak ada situs publik diperbarui oleh paket ini. Dua repositori publik lama pengguna tidak ditimpa.
+Jalur yang dipilih memakai hostname standar Render `onrender.com`, tanpa membeli domain. Konfigurasi `render.yaml` dan panduan `deploy/RENDER.md` sudah tersedia; deployment dan biaya harus disetujui terlebih dahulu. Template VPS alternatif tetap ada di `deploy/README.md`. Tidak ada server berbayar dibuat dan tidak ada situs publik diperbarui oleh paket ini. Dua repositori publik lama pengguna tidak ditimpa. API key Synox baru belum diberikan dan harus tetap kosong; jangan gunakan kunci lama.
 
 Isi konfigurasi publik setelah data sebenarnya tersedia:
 
@@ -87,6 +87,6 @@ Pemeriksaan server hanya membuktikan endpoint health/capabilities tersedia, **bu
 
 ## Belum selesai karena memerlukan pemilik/akses nyata
 
-Identitas dan email pengelola; server/domain produksi; API key baru beserta pemeriksaan izin penyedia; status aplikasi baru atau sudah terbit; akses Play Console. Selain itu: pengujian ponsel/emulator, screenshot Android nyata, feature graphic final, Data safety, rating konten, target usia, kredensial review dan persyaratan testing akun Play perlu dituntaskan sesuai akun/fitur nyata.
+Identitas/email sudah diberikan dan aplikasi dikonfirmasi baru, belum pernah terbit. Yang masih diperlukan: persetujuan deployment publik dan biaya Render, URL backend sebenarnya, API key baru beserta pemeriksaan izin penyedia, serta akses Play Console. Selain itu: pengujian ponsel/emulator, screenshot Android nyata, feature graphic final, Data safety, rating konten, target usia, kredensial review dan persyaratan testing akun Play perlu dituntaskan sesuai akun/fitur nyata.
 
 APK/AAB signed tidak berarti sudah diterbitkan, lolos review atau semua layanan online aktif. Belum dilakukan audit penetrasi independen dan tidak ada jaminan persetujuan Google Play.

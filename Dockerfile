@@ -6,7 +6,8 @@ RUN pip install --no-cache-dir -r requirements.txt && useradd --system --uid 100
 COPY --chown=xyroplay:xyroplay backend/ ./backend/
 COPY --chown=xyroplay:xyroplay web/ ./web/
 COPY --chown=xyroplay:xyroplay scripts/backup_db.py /app/scripts/backup_db.py
+COPY deploy/render-entrypoint.sh /usr/local/bin/render-entrypoint
+RUN chmod 0755 /usr/local/bin/render-entrypoint
 WORKDIR /app/backend
-USER xyroplay
 EXPOSE 5000
-CMD ["gunicorn","--bind=0.0.0.0:5000","--workers=2","--timeout=30","app:app"]
+ENTRYPOINT ["/usr/local/bin/render-entrypoint"]
