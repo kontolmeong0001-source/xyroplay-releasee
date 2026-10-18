@@ -6,7 +6,9 @@ let sharedPool;
 export async function getPool(env = process.env) {
   if (sharedPool) return sharedPool;
   let connectionString = env.DATABASE_URL || null;
-  if (!connectionString && env.NETLIFY === 'true') {
+  // NETLIFY is a build-time marker, not a required Functions runtime variable.
+  // The SDK reads the branch-aware connection from Netlify.env at runtime.
+  if (!connectionString) {
     try {
       const netlifyDb = await import('@netlify/database');
       connectionString = await netlifyDb.getConnectionString();
