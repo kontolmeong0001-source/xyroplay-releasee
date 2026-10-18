@@ -38,10 +38,18 @@ Lima tes konfigurasi Render lulus (`python3 -m unittest discover -s tests -p tes
 
 APK dan AAB uji dibangun ulang memakai upload key yang sama agar identitas/kontak ikut tersalin ke aset Android. Build `testDebugUnitTest lintRelease bundleRelease assembleRelease` berhasil; pemeriksaan kesamaan seluruh aset AAB lulus. Signature APK diverifikasi `apksigner` (v2) dan AAB `jarsigner` (peringatan self-signed/tanpa timestamp tetap ada). Belum merupakan build produksi, uji perangkat, atau persetujuan Play Store.
 
-## Domain terpilih dan pemeriksaan DNS
+## Pemeriksaan domain dasar (riwayat; rencana apex sudah digantikan)
 
 Pengguna memilih `xyroplay.web.id`, domain aktif yang terlihat pada akun IDWebhost. Nama `xyroplay.my.id` tidak digunakan untuk rencana lanjutan. Domain terpilih memakai nameserver `dns1.p03.nsone.net` sampai `dns4.p03.nsone.net`, dikonfirmasi dari form nameserver IDWebhost dan DNS publik. SOA publik merujuk Netlify. Jawaban A publik apex/www adalah `18.208.88.157` dan `98.84.224.111`; AAAA adalah `2600:1f18:16e:df01::258` dan `2600:1f18:16e:df01::259`. Jawaban dapat berubah karena pengelolaan/CDN penyedia.
 
 Panel Kelola DNS IDWebhost menampilkan A `xyroplay.web.id → 75.2.60.5`, tetapi juga memperingatkan bahwa NS harus memakai `ns1.idwebhost.id` dan `ns2.idwebhost.id` untuk menggunakan zona tersebut. Zona IDWebhost tidak otoritatif pada delegasi saat ini. Zona Netlify lengkap belum dibuka; pemeriksaan publik tidak membuktikan seluruh record sudah terinventarisasi.
 
 Tidak ada DNS, nameserver, kunci domain, atau konfigurasi layanan publik yang diubah. Rencana record Render disimpan di `deploy/domain-plan.json` dan panduan `deploy/RENDER.md`; hostname Render tetap null, API base aktif tetap kosong, dan persetujuan record masih wajib setelah hostname tersedia. APK/AAB tidak dibangun ulang karena hanya rencana/dokumentasi source yang berubah; paket uji sebelumnya tetap sesuai aset aktif. Tes rencana domain memeriksa bahwa perencanaan tidak mengaktifkan backend maupun menandai cutover telah dilakukan.
+
+## Rencana aktif: subdomain app, situs Netlify dipertahankan
+
+Keputusan terbaru memakai `app.xyroplay.web.id` untuk XyroPlay. `xyroplay.web.id` dan `www.xyroplay.web.id` tetap pada situs Netlify saat ini. Rencana apex A/ALIAS dan penghapusan AAAA apex/www sebelumnya dibatalkan; jangan menerapkannya. Nameserver Netlify tidak dipindahkan.
+
+Pemeriksaan DNS publik untuk `app.xyroplay.web.id` menghasilkan NXDOMAIN pada CNAME, A, dan AAAA. Ini hanya hasil lookup publik, bukan bukti inventaris zona lengkap. Rencana final hanya satu CNAME berlabel `app`, targetnya masih null sampai hostname Render nyata tersedia dan pengguna menyetujui record final. Tidak ada DNS, nameserver, backend produksi atau layanan Render yang diubah/dibuat. `release.json` serta aset web/Android tetap belum dihubungkan.
+
+Lima tes rencana domain mencakup subdomain terpilih, backend tetap tidak aktif, otoritas DNS yang benar, hanya CNAME app yang direncanakan, serta perlindungan apex/www dan nameserver. Bersama lima tes Render, ada sepuluh tes konfigurasi lokal. Tes ini bukan pengujian runtime DNS/TLS/hosting.

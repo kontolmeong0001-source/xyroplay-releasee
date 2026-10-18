@@ -1,6 +1,6 @@
 {
   "status": "planned_only",
-  "domain": "xyroplay.web.id",
+  "domain": "app.xyroplay.web.id",
   "registrar": "idwebhost",
   "dnsAuthority": "netlify_ns1",
   "publicDns": {
@@ -11,7 +11,10 @@
       "dns4.p03.nsone.net"
     ],
     "soa": "domains+netlify.netlify.com",
-    "legacyAddresses": {
+    "mxTxtCaaPubliclyObserved": false,
+    "zoneEmptinessConfirmed": false,
+    "fullAuthoritativeZoneInspected": false,
+    "protectedNetlifyAnswers": {
       "A": [
         "18.208.88.157",
         "98.84.224.111"
@@ -25,30 +28,33 @@
         "www"
       ]
     },
-    "mxTxtCaaPubliclyObserved": false,
-    "zoneEmptinessConfirmed": false,
-    "fullAuthoritativeZoneInspected": false
+    "appLookup": {
+      "status": "NXDOMAIN",
+      "queriedTypes": [
+        "CNAME",
+        "A",
+        "AAAA"
+      ],
+      "fullZoneInspection": false
+    }
   },
   "renderHostname": null,
   "apiBase": "",
   "approvalRequired": true,
   "plannedRecords": {
-    "apex": {
-      "type": "A",
-      "value": "216.24.57.1",
-      "alternative": "ALIAS/ANAME if supported by authoritative DNS provider"
-    },
-    "www": {
+    "app": {
+      "name": "app.xyroplay.web.id",
+      "hostLabel": "app",
       "type": "CNAME",
       "value": null,
-      "target": "actual Render hostname only after service creation"
-    },
-    "removeWebRelatedAAAAOnlyAfterApprovedCutover": true
+      "ttl": null,
+      "target": "Actual Render hostname, only after service creation and approval of the final record."
+    }
   },
   "nameserverMigration": {
     "default": false,
-    "requiredForEditingIdwebhostZoneWhileNetlifyIsAuthoritative": true,
-    "risk": "May disrupt existing DNS services; do not migrate without approval and a complete record inventory."
+    "allowedByCurrentPlan": false,
+    "reason": "Keep existing Netlify DNS delegation and existing apex/www site."
   },
   "registrarDnsPanel": {
     "authoritative": false,
@@ -61,5 +67,20 @@
     ],
     "notice": "IDWebhost requires ns1.idwebhost.id and ns2.idwebhost.id to serve this zone; no nameserver change approved."
   },
-  "dnsChangesApplied": false
+  "dnsChangesApplied": false,
+  "zone": "xyroplay.web.id",
+  "plannedPublicOrigin": "https://app.xyroplay.web.id",
+  "preserveExistingNetlifySite": true,
+  "protectedNames": [
+    "xyroplay.web.id",
+    "www.xyroplay.web.id"
+  ],
+  "scopeRestrictions": [
+    "Do not modify apex or www records.",
+    "Do not remove apex/www AAAA records.",
+    "Do not modify NS, MX, TXT, CAA or unrelated records.",
+    "Do not change IDWebhost DNS or nameservers.",
+    "Inspect app-label conflicts in the authoritative zone before preparing final approval.",
+    "No DNS write until real Render hostname exists and the user approves the exact record."
+  ]
 }
