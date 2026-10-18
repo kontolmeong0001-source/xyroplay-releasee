@@ -10,6 +10,25 @@ Konfigurasi `render.yaml` di root membuat satu Docker Web Service dan memasang *
 4. Simpan `SYNOX_API_KEY` kosong sebagaimana template. Provider API belum aktif; jangan mengisi key atau menganggap fitur provider bekerja. Jangan menaruh rahasia di Git, Dockerfile, atau image.
 5. Setelah service sehat, uji `https://<nama-service>.onrender.com/api/health` dan pastikan JSON berisi `{"status":"ok"}`. Endpoint health tidak membuktikan bahwa backup/restore atau penyimpanan disk telah teruji.
 
+## Rencana custom domain (belum diterapkan)
+
+Domain yang dipilih adalah `xyroplay.web.id` (registrar: IDWebhost). Rencana ini hanya dokumentasi: belum ada service Render, hostname Render, atau cutover DNS yang dibuat. Persetujuan pemilik untuk deployment, biaya, dan cutover wajib diperoleh sebelum perubahan; jangan mengisi `release.json` atau `web/config.js` dan jangan rebuild APK hanya untuk rencana ini. `apiBase` tetap kosong sampai endpoint backend nyata dan pengaktifan koneksi disetujui.
+
+DNS publik saat ini menunjukkan nameserver otoritatif Netlify (`dns1.p03.nsone.net`, `dns2.p03.nsone.net`, `dns3.p03.nsone.net`, `dns4.p03.nsone.net`; SOA `domains+netlify.netlify.com`). Dengan demikian, mengedit zone di IDWebhost tidak berpengaruh selama NS tetap di Netlify. Migrasi nameserver bukan langkah default; berisiko memutus record layanan lain dan hanya boleh dipertimbangkan setelah inventaris lengkap serta approval. MX/TXT/CAA tidak terdeteksi dari pemeriksaan publik saat ini, tetapi itu **bukan bukti bahwa zone kosong**. Domain/apex dan `www` saat ini menunjuk ke layanan lama melalui A `18.208.88.157`, `98.84.224.111` serta AAAA `2600:1f18:16e:df01::258` dan `::259`; jangan arahkan konfigurasi aplikasi ke sana.
+
+Hanya setelah service Render dibuat, hostname aktual diketahui, dan cutover disetujui:
+
+1. Tambahkan `xyroplay.web.id` dan `www.xyroplay.web.id` sebagai custom domains pada service Render melalui dashboard, dengan approval. Jangan menaruh `domains` di `render.yaml` tanpa review karena perubahan Blueprint dapat diterapkan otomatis.
+2. Pada penyedia DNS otoritatif yang benar (saat ini Netlify, kecuali migrasi NS telah disetujui), atur apex `xyroplay.web.id` ke A `216.24.57.1`, atau ALIAS/ANAME ke hostname Render aktual jika provider mendukungnya. Atur `www` sebagai CNAME ke hostname Render aktual yang diberikan setelah service dibuat. Jangan gunakan hostname contoh seolah-olah nyata.
+3. Hapus record AAAA web terkait **hanya setelah approval cutover**, saat mengganti record lama. Jangan mengubah atau menghapus record lain tanpa memahami pemilik/penggunaannya.
+4. Ikuti verifikasi domain/TLS di dashboard Render, lalu uji health melalui hostname custom domain dan konfirmasi aplikasi sebelum mengisi `apiBase` dengan URL backend yang disetujui.
+
+Panel **Kelola DNS IDWebhost** menampilkan satu record A `xyroplay.web.id → 75.2.60.5`, disertai peringatan bahwa fitur ini memerlukan NS `ns1.idwebhost.id` dan `ns2.idwebhost.id`. Karena delegasi saat ini tetap Netlify/NS1, record panel tersebut bukan jawaban DNS publik aktif. Tidak ada tombol tambah/edit/hapus record, simpan nameserver, atau “Ubah NS Sekarang” yang digunakan. Isi lengkap zona DNS Netlify belum diakses; jawaban DNS publik bukan inventaris seluruh zona.
+
+Panduan record mengikuti [dokumentasi resmi DNS Render](https://render.com/docs/configure-other-dns).
+
+Status mesin dan rincian domain yang belum diterapkan dicatat di [`domain-plan.json`](domain-plan.json).
+
 ## Runtime, proxy, dan izin
 
 Docker image membaca `PORT` dari Render (fallback lokal 5000) dan bind ke `0.0.0.0`; jangan hard-code port publik. Health check Blueprint memeriksa `/api/health`. `TRUST_PROXY_HOPS=1` hanya mempercayai satu hop proxy untuk IP/protokol; jangan terbitkan backend di jalur lain yang memungkinkan klien memalsukan forwarded headers. TLS dan hostname `onrender.com` dikelola pada layanan Render.

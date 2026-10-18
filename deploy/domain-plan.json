@@ -1,0 +1,65 @@
+{
+  "status": "planned_only",
+  "domain": "xyroplay.web.id",
+  "registrar": "idwebhost",
+  "dnsAuthority": "netlify_ns1",
+  "publicDns": {
+    "nameservers": [
+      "dns1.p03.nsone.net",
+      "dns2.p03.nsone.net",
+      "dns3.p03.nsone.net",
+      "dns4.p03.nsone.net"
+    ],
+    "soa": "domains+netlify.netlify.com",
+    "legacyAddresses": {
+      "A": [
+        "18.208.88.157",
+        "98.84.224.111"
+      ],
+      "AAAA": [
+        "2600:1f18:16e:df01::258",
+        "2600:1f18:16e:df01::259"
+      ],
+      "appliesTo": [
+        "apex",
+        "www"
+      ]
+    },
+    "mxTxtCaaPubliclyObserved": false,
+    "zoneEmptinessConfirmed": false,
+    "fullAuthoritativeZoneInspected": false
+  },
+  "renderHostname": null,
+  "apiBase": "",
+  "approvalRequired": true,
+  "plannedRecords": {
+    "apex": {
+      "type": "A",
+      "value": "216.24.57.1",
+      "alternative": "ALIAS/ANAME if supported by authoritative DNS provider"
+    },
+    "www": {
+      "type": "CNAME",
+      "value": null,
+      "target": "actual Render hostname only after service creation"
+    },
+    "removeWebRelatedAAAAOnlyAfterApprovedCutover": true
+  },
+  "nameserverMigration": {
+    "default": false,
+    "requiredForEditingIdwebhostZoneWhileNetlifyIsAuthoritative": true,
+    "risk": "May disrupt existing DNS services; do not migrate without approval and a complete record inventory."
+  },
+  "registrarDnsPanel": {
+    "authoritative": false,
+    "records": [
+      {
+        "name": "xyroplay.web.id",
+        "type": "A",
+        "value": "75.2.60.5"
+      }
+    ],
+    "notice": "IDWebhost requires ns1.idwebhost.id and ns2.idwebhost.id to serve this zone; no nameserver change approved."
+  },
+  "dnsChangesApplied": false
+}
