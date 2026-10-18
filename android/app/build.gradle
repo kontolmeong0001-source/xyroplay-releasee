@@ -1,0 +1,45 @@
+import groovy.json.JsonSlurper
+
+plugins { id 'com.android.application' }
+
+def metadataFile = rootProject.file('../release.json')
+def metadata = metadataFile.exists() ? new JsonSlurper().parse(metadataFile) : [:]
+def signingPath = System.getenv('XYRO_KEYSTORE')
+def testBuild = System.getenv('XYRO_TEST_BUILD') == '1'
+if (signingPath && (!System.getenv('XYRO_KEYSTORE_PASSWORD') || !System.getenv('XYRO_KEY_PASSWORD'))) {
+    throw new GradleException('Environment signing belum lengkap; password tidak boleh dimasukkan ke source.')
+}
+android {
+    namespace 'id.xyroplay.app'
+    compileSdk 36
+    defaultConfig {
+        applicationId = metadata.applicationId ?: 'id.xyroplay.app'
+        minSdk 26
+        targetSdk 36
+        versionCode = (metadata.versionCode ?: 2) as int
+        versionName = (metadata.versionName ?: '1.1') + (testBuild ? '-test' : '')
+        resValue 'string', 'app_name', testBuild ? 'XyroPlay (uji)' : 'XyroPlay'
+    }
+    signingConfigs {
+        if (signingPath) {
+            upload {
+                storeFile file(signingPath)
+                storePassword System.getenv('XYRO_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('XYRO_KEY_ALIAS') ?: 'xyroplay-upload'
+                keyPassword System.getenv('XYRO_KEY_PASSWORD')
+            }
+        }
+    }
+    buildTypes {
+        debug { debuggable true }
+        release {
+            minifyEnabled false
+            debuggable false
+            signingConfig signingPath ? signingConfigs.upload : null
+        }
+    }
+}
+dependencies {
+    implementation 'androidx.webkit:webkit:1.14.0'
+    testImplementation 'junit:junit:4.13.2'
+}

@@ -1,0 +1,16 @@
+.git
+.venv
+**/.env
+**/__pycache__
+**/.pytest_cache
+backend/data
+**/*.sqlite3*
+**/*.jks
+**/*.keystore
+android
+artifacts
+
+**/*.p12
+**/signing.env
+deploy
+store

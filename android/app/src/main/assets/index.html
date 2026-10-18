@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html lang="id">
+<head>
+<meta content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' https: blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'" http-equiv="Content-Security-Policy"/><meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+<title>XyroPlay</title>
+<meta content="no-referrer" name="referrer"/><link href="app.css" rel="stylesheet"/><script defer="" src="config.js"></script><script defer="" src="app.js"></script><script defer="" src="spotify.js"></script><script defer="" src="release.js"></script><script defer="" src="events.js"></script></head>
+<body>
+<!-- ============ AUTH ============ -->
+<div id="authBox">
+<div class="auth-card">
+<div class="auth-avatar">
+<img alt="XyroPlay" data-event-error="ui-0" src="brand.svg"/>
+</div>
+<div class="auth-title">XyroPlay</div>
+<div class="auth-subtitle">Login atau daftar buat pakai fitur</div>
+<div class="tabs">
+<button class="active" data-event-click="ui-1">Login</button>
+<button data-event-click="ui-2">Daftar</button>
+</div>
+<div class="form-section active" id="loginForm">
+<label class="input-label">Username</label>
+<div class="input-wrap">
+<input aria-label="Username" autocomplete="username" id="loginUser" maxlength="32" placeholder="Username" type="text"/>
+</div>
+<label class="input-label">Password</label>
+<div class="input-wrap">
+<input aria-label="Password" autocomplete="current-password" id="loginPass" maxlength="128" placeholder="Password" type="password"/>
+<button class="eye-btn" data-event-click="ui-3" type="button">👁</button>
+</div>
+<button class="btn-main" data-event-click="ui-4">Login</button>
+<div class="msg" id="loginMsg"></div>
+<a class="privacy-link" href="recovery.html" id="recoveryLink">Lupa password? Pulihkan dengan kode</a></div>
+<div class="form-section" id="registerForm">
+<label class="input-label">Username</label>
+<div class="input-wrap">
+<input aria-label="Username baru" autocomplete="username" id="regUser" maxlength="32" placeholder="Username baru" type="text"/>
+</div>
+<label class="input-label">Password</label>
+<div class="input-wrap">
+<input aria-label="Password" autocomplete="new-password" id="regPass" maxlength="128" minlength="12" placeholder="Password" type="password"/>
+<button class="eye-btn" data-event-click="ui-5" type="button">👁</button>
+</div>
+<label class="input-label">Konfirmasi Password</label>
+<div class="input-wrap">
+<input aria-label="Ulangi password" autocomplete="new-password" id="regPass2" maxlength="128" minlength="12" placeholder="Ulangi password" type="password"/>
+<button class="eye-btn" data-event-click="ui-6" type="button">👁</button>
+</div>
+<button class="btn-main" data-event-click="ui-7">Daftar</button>
+<div class="msg" id="regMsg"></div>
+</div>
+<div class="auth-footer">Password di-hash di server dengan <b>scrypt</b>
+</div>
+<a class="privacy-link" href="privacy.html">Privasi &amp; penghapusan akun</a></div>
+</div>
+<!-- ============ VIDEO ============ -->
+<div id="videoScreen">
+<video autoplay="" id="introVideo" playsinline="">
+<source type="video/mp4"/>
+</video>
+<div aria-hidden="true" class="after-login-name">XYROPLAY</div>
+<button data-event-click="ui-8" id="skipBtn">SKIP ⏭</button>
+</div>
+<!-- ============ APP ============ -->
+<button aria-label="Buka menu akun" data-event-click="ui-9" id="xyroHamburger" type="button">☰</button>
+<div data-event-click="ui-10" id="xyroDrawerShade">
+<aside aria-label="Menu akun" id="xyroDrawer">
+<div class="xyro-drawer-head"><b>XYRO<span style="color:#a879ff">PLAY</span></b><button aria-label="Tutup menu" class="xyro-drawer-close" data-event-click="ui-11">×</button></div>
+<div class="xyro-profile-card"><div class="xyro-profile-row"><img alt="Foto profil" class="xyro-profile-photo" id="xyroDrawerPhoto" src=""/><div><div class="xyro-profile-name" id="xyroDrawerName">Pengguna</div><span class="xyro-role-pill" id="xyroDrawerRole">MEMBER</span></div></div></div>
+<div class="xyro-drawer-label">AKUN</div>
+<button class="xyro-drawer-btn" data-event-click="ui-12"><span class="xyro-menu-icon">👤</span>Profile</button>
+<button class="xyro-drawer-btn" data-event-click="ui-13"><span class="xyro-menu-icon">🕘</span>History penggunaan</button>
+<div id="xyroDeveloperMenu" style="display:none"><div class="xyro-drawer-label">DEVELOPER ACCESS</div><button class="xyro-drawer-btn" data-event-click="ui-14"><span class="xyro-menu-icon">➕</span>Create akun</button><button class="xyro-drawer-btn" data-event-click="ui-15"><span class="xyro-menu-icon">🛡️</span>Admin center</button></div>
+<div class="xyro-drawer-label">SESI</div><button class="xyro-drawer-btn" data-event-click="ui-16"><span class="xyro-menu-icon">🚪</span>Log out</button>
+<button class="xyro-drawer-btn" id="rotateRecoveryBtn">Buat kode pemulihan baru</button><button class="xyro-drawer-btn" id="deleteAccountBtn">Hapus akun &amp; data lokal</button><button class="xyro-drawer-btn" id="clearLocalBtn">Bersihkan profil &amp; riwayat lokal</button><p class="xyro-drawer-note">Profil dan riwayat tersimpan lokal di perangkat. Akun dan hak akses diverifikasi server. Hapus data lokal dari menu akun.</p>
+</aside>
+</div>
+<div class="xyro-modal" data-event-click="ui-17" id="xyroProfileModal"><div class="xyro-modal-card"><h3>👤 Profile</h3><div class="xyro-profile-row"><img alt="Pratinjau foto" class="xyro-profile-photo" id="xyroProfilePreview" src=""/><div><b id="xyroProfileUsername">username</b><div style="color:#a99bbd;font-size:12px;margin-top:4px">Status member mengikuti role akun</div></div></div><label>Foto profil</label><input accept="image/*" aria-label="xyroPhotoInput" data-event-change="ui-18" id="xyroPhotoInput" type="file"/><label>Nama tampilan</label><input aria-label="Nama tampilan" id="xyroDisplayNameInput" maxlength="32" placeholder="Nama tampilan"/><div class="xyro-modal-actions"><button class="secondary" data-event-click="ui-19">Batal</button><button data-event-click="ui-20">Simpan profil</button></div></div></div>
+<div class="xyro-modal" data-event-click="ui-21" id="xyroHistoryModal"><div class="xyro-modal-card"><h3>🕘 History penggunaan</h3><div id="xyroHistorySummary" style="color:#c8b5e7;margin-bottom:12px">0 kali digunakan</div><div id="xyroHistoryList"></div><div class="xyro-modal-actions"><button data-event-click="ui-22">Tutup</button></div></div></div>
+<div class="xyro-modal" data-event-click="ui-23" id="xyroCreateModal"><div class="xyro-modal-card"><h3>➕ Create akun</h3><p style="font-size:12px;color:#b8aacd">Username minimal 5 karakter, password minimal 12 karakter.</p><label>Username</label><input aria-label="Minimal 5 karakter" autocomplete="off" id="xyroCreateUsername" maxlength="32" minlength="5" placeholder="Minimal 5 karakter"/><label>Password</label><input aria-label="Minimal 12 karakter" autocomplete="new-password" id="xyroCreatePassword" maxlength="128" minlength="12" placeholder="Minimal 12 karakter" type="password"/><label>Status akun</label><select aria-label="xyroCreateRole" id="xyroCreateRole"><option value="member">Member</option><option value="reseller">Reseller</option><option value="admin">Admin</option><option value="owner">Owner</option></select><div class="xyro-modal-actions"><button class="secondary" data-event-click="ui-24">Batal</button><button data-event-click="ui-25">Buat akun</button></div><div id="xyroCreateMessage" style="font-size:12px;margin-top:10px"></div></div></div>
+<div id="app">
+<div id="content">
+<!-- ============ HOME (UI BARU) ============ -->
+<div class="page active" id="page-home"><p id="serviceStatus" role="status">Memeriksa koneksi layanan…</p>
+<!-- Hero Banner + Jam -->
+<div class="hero-banner">
+<img alt="Banner XyroPlay" data-event-error="ui-26" src="brand.svg"/>
+<div class="hero-badge">
+<span class="dot"></span> XYROPLAY
+        </div>
+<div class="clock-wrap">
+<div class="clock-left">
+<div class="clock-time" id="liveClock">00:00</div>
+<div class="clock-date" id="liveDate">—</div>
+</div>
+<div class="clock-right" id="liveGreeting">—</div>
+</div>
+</div>
+<!-- User Card -->
+<div class="user-card-v2">
+<div class="user-avatar-v2" id="userAvatar">A</div>
+<div class="user-info-v2">
+<h3 id="userName">admin</h3>
+<span class="role">MEMBER</span>
+</div>
+</div>
+<!-- Greeting -->
+<div class="greeting-card">
+<h2>Halo, <span id="greetName">admin</span> ✨</h2>
+<p>Pilih fitur di bawah. Status layanan online ditampilkan terpisah.</p>
+</div>
+<!-- Quick stats -->
+<div class="sec-title">Statistik</div>
+<div class="stat-row">
+<div class="stat-card">
+<span class="emoji">🛠️</span>
+<div class="val">18</div>
+<div class="lbl">Tools</div>
+</div>
+<div class="stat-card">
+<span class="emoji">🤖</span>
+<div class="val">1</div>
+<div class="lbl">AI</div>
+</div>
+<div class="stat-card">
+<span class="emoji">⚡</span>
+<div class="val">∞</div>
+<div class="lbl">Limit</div>
+</div>
+</div>
+<!-- Quick Action -->
+<div class="sec-title">Aksi Cepat</div>
+<div class="action-grid">
+<div class="action-tile" data-event-click="ui-27">
+<span class="tile-emoji">🛠️</span>
+<div class="tile-name">Tools</div>
+<div class="tile-desc">Utility harian</div>
+</div>
+<div class="action-tile" data-event-click="ui-28">
+<span class="tile-emoji">🤖</span>
+<div class="tile-name">AI Chat</div>
+<div class="tile-desc">Nova AI</div>
+</div>
+<div class="action-tile" data-event-click="ui-29">
+<span class="tile-emoji">⬇️</span>
+<div class="tile-name">Download</div>
+<div class="tile-desc">Sosmed media</div>
+</div>
+<div class="action-tile" data-event-click="ui-30">
+<span class="tile-emoji">😂</span>
+<div class="tile-name">Meme</div>
+<div class="tile-desc">Random lucu</div>
+</div>
+</div>
+<button class="btn-logout" data-event-click="ui-31">
+<span>🚪</span> Logout
+      </button>
+</div>
+<!-- DOWNLOAD -->
+<div class="page" id="page-download">
+<div class="page-title">⬇️ Download</div>
+<div class="page-subtitle">Download dari berbagai platform</div>
+<div class="list">
+<div class="list-item" data-event-click="ui-32">
+<div class="ic">🎵</div><div><div class="t">TikTok</div><div class="d">Ambil link video &amp; download</div></div>
+</div>
+<div class="list-item" data-event-click="ui-33">
+<div class="ic">▶️</div><div><div class="t">YouTube</div><div class="d">Ambil link video/audio</div></div>
+</div>
+<div class="list-item" data-event-click="ui-34">
+<div class="ic">🎧</div><div><div class="t">Spotify</div><div class="d">Ambil link lagu &amp; download</div></div>
+</div>
+</div>
+</div>
+<!-- TOOLS -->
+<div class="page" id="page-tools">
+<div class="page-title">🛠️ Tools</div>
+<div class="page-subtitle">Semua utility XyroPlay dalam satu tempat.</div>
+<div class="tools-head">
+<div class="tools-head-row">
+<div class="tools-head-title">Cari tool yang kamu butuhkan</div>
+<div class="tools-count" id="toolsCount">22 Tools</div>
+</div>
+<div class="tools-search">
+<span class="search-icon">🔎</span>
+<input aria-label="Cari nama atau fungsi tool..." autocomplete="off" id="toolSearch" placeholder="Cari nama atau fungsi tool..." type="search"/>
+<button class="clear-search" id="clearToolSearch" type="button">✕</button>
+</div>
+</div>
+<div class="tools-filter" id="toolsFilter">
+<button class="active" data-filter="all" type="button">Semua</button>
+<button data-filter="download" type="button">Download</button>
+<button data-filter="meme" type="button">Meme</button>
+<button data-filter="canvas" type="button">Canvas</button>
+<button data-filter="utility" type="button">Utility</button>
+<button data-filter="other" type="button">Lainnya</button>
+</div>
+<div class="tools-grid" id="toolsGrid">
+<div class="tool-card" data-category="utility" data-event-click="ui-35" data-search="web to zip convert website jadi zip website"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🌐</div><div class="tool-copy"><div class="tool-name">Web to ZIP</div><div class="tool-desc">Convert website jadi ZIP</div><span class="tool-tag">Utility</span></div></div></div>
+<div class="tool-card" data-category="download" data-event-click="ui-36" data-search="tiktok downloader video download"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🎵</div><div class="tool-copy"><div class="tool-name">TikTok Downloader</div><div class="tool-desc">Ambil link video &amp; download</div><span class="tool-tag">Download</span></div></div></div>
+<div class="tool-card" data-category="download" data-event-click="ui-37" data-search="youtube downloader video audio download"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">▶️</div><div class="tool-copy"><div class="tool-name">YouTube Downloader</div><div class="tool-desc">Ambil link video/audio</div><span class="tool-tag">Download</span></div></div></div>
+<div class="tool-card" data-category="download" data-event-click="ui-38" data-search="spotify downloader lagu music download"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🎧</div><div class="tool-copy"><div class="tool-name">Spotify Downloader</div><div class="tool-desc">Ambil link lagu &amp; download</div><span class="tool-tag">Download</span></div></div></div>
+<div class="tool-card" data-category="utility" data-event-click="ui-39" data-search="cuaca weather kota"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🌤️</div><div class="tool-copy"><div class="tool-name">Cuaca</div><div class="tool-desc">Info cuaca kota</div><span class="tool-tag">Utility</span></div></div></div>
+<div class="tool-card" data-category="meme" data-event-click="ui-40" data-search="random meme lucu"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">😂</div><div class="tool-copy"><div class="tool-name">Random Meme</div><div class="tool-desc">Meme random tiap klik</div><span class="tool-tag">Meme</span></div></div></div>
+<div class="tool-card" data-category="canvas" data-event-click="ui-41" data-search="fakedev developer profile kartu"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">👨‍💻</div><div class="tool-copy"><div class="tool-name">FakeDev</div><div class="tool-desc">Buat kartu profil developer</div><span class="tool-tag">Canvas</span></div></div></div>
+<div class="tool-card" data-category="canvas" data-event-click="ui-42" data-search="iqc chat whatsapp iphone"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">📱</div><div class="tool-copy"><div class="tool-name">IQC</div><div class="tool-desc">Buat tampilan chat IQC</div><span class="tool-tag">Canvas</span></div></div></div>
+<div class="tool-card" data-category="meme" data-event-click="ui-43" data-search="jarvis meme percakapan"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🤖</div><div class="tool-copy"><div class="tool-name">Jarvis Meme</div><div class="tool-desc">Meme percakapan Jarvis</div><span class="tool-tag">Meme</span></div></div></div>
+<div class="tool-card" data-category="meme" data-event-click="ui-44" data-search="pak ustadz meme"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🕌</div><div class="tool-copy"><div class="tool-name">Pak Ustadz</div><div class="tool-desc">Meme Pak Ustadz</div><span class="tool-tag">Meme</span></div></div></div>
+<div class="tool-card" data-category="canvas" data-event-click="ui-45" data-search="fakeml game profile kartu"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🎮</div><div class="tool-copy"><div class="tool-name">FakeML</div><div class="tool-desc">Kartu profil game</div><span class="tool-tag">Canvas</span></div></div></div>
+<div class="tool-card" data-category="canvas" data-event-click="ui-46" data-search="fakeff game lobby kartu"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🔥</div><div class="tool-copy"><div class="tool-name">FakeFF</div><div class="tool-desc">Kartu lobby game</div><span class="tool-tag">Canvas</span></div></div></div>
+<div class="tool-card" data-category="meme" data-event-click="ui-47" data-search="windows quoted quote meme windows"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🪟</div><div class="tool-copy"><div class="tool-name">Windows Quoted</div><div class="tool-desc">Meme quote Windows</div><span class="tool-tag">Meme</span></div></div></div>
+<div class="tool-card" data-category="canvas" data-event-click="ui-48" data-search="wasted meme effect foto"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">💥</div><div class="tool-copy"><div class="tool-name">Wasted</div><div class="tool-desc">Efek meme Wasted</div><span class="tool-tag">Canvas</span></div></div></div>
+<div class="tool-card" data-category="canvas" data-event-click="ui-49" data-search="wanted poster meme foto"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🎯</div><div class="tool-copy"><div class="tool-name">Wanted</div><div class="tool-desc">Poster meme Wanted</div><span class="tool-tag">Canvas</span></div></div></div>
+<div class="tool-card" data-category="meme" data-event-click="ui-50" data-search="sudah saatnya meme teks"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">⏰</div><div class="tool-copy"><div class="tool-name">Sudah Saatnya</div><div class="tool-desc">Meme teks</div><span class="tool-tag">Meme</span></div></div></div>
+<div class="tool-card" data-category="canvas" data-event-click="ui-51" data-search="iqc sticker sticker chat"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🏷️</div><div class="tool-copy"><div class="tool-name">IQC Sticker</div><div class="tool-desc">Buat sticker IQC</div><span class="tool-tag">Canvas</span></div></div></div>
+<div class="tool-card" data-category="utility" data-event-click="ui-52" data-search="get code html ambil kode html url"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">🧩</div><div class="tool-copy"><div class="tool-name">Get Code HTML</div><div class="tool-desc">Ambil kode HTML dari URL</div><span class="tool-tag">Utility</span></div></div></div>
+<div class="tool-card" data-category="other" data-event-click="ui-53" data-search="react channel whatsapp reaksi channel"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">💬</div><div class="tool-copy"><div class="tool-name">React Channel WhatsApp</div><div class="tool-desc">Kirim reaksi ke channel WhatsApp</div><span class="tool-tag">Lainnya</span></div></div></div>
+<div class="tool-card" data-category="utility" data-event-click="ui-54" data-search="web to apk convert website apk"><span class="tool-arrow">›</span><div class="tool-card-top"><div class="tool-icon">📦</div><div class="tool-copy"><div class="tool-name">Web to APK</div><div class="tool-desc">Convert website jadi APK</div><span class="tool-tag">Utility</span></div></div></div>
+</div>
+<div class="tools-empty" id="toolsEmpty">
+<b>🔎 Tool tidak ditemukan</b>
+        Coba kata kunci lain atau pilih kategori berbeda.
+      </div>
+</div>
+<!-- AI -->
+<div class="page" id="page-ai">
+<div class="page-title">🤖 AI</div>
+<div class="page-subtitle">Pilih AI yang mau dipakai</div>
+<div class="list">
+<div class="list-item" data-event-click="ui-55">
+<div class="ic">✨</div><div><div class="t">Nova AI</div><div class="d">Chat AI serba bisa</div></div>
+</div>
+</div>
+</div>
+<!-- TOOL WORKER -->
+<div class="page" id="page-tool-worker">
+<button class="back-btn" data-event-click="ui-56">‹ Kembali</button>
+<div class="page-title" id="toolTitle">Tool</div>
+<div class="page-subtitle" id="toolDesc"></div>
+<div id="toolNote"></div>
+<div class="tool-box" id="toolForm"></div>
+<div class="result-box" id="toolResult">Hasil akan muncul di sini...</div>
+</div>
+<!-- ADMIN PANEL -->
+<div class="page" id="page-admin">
+<div class="admin-heading"><div><div class="page-title">🛡️ Admin Center</div><div class="page-subtitle">Kelola XYROPLAY dalam satu tempat</div></div><span class="admin-live"><i></i> ADMIN</span></div>
+<div class="admin-warning">🔒 Versi HTML lokal: data tersimpan di browser/perangkat ini, bukan database online. Jangan gunakan untuk data sensitif di website publik.</div>
+<div class="admin-stats">
+<div class="admin-stat"><span>👥 Total akun</span><b id="adminUserCount">0</b><small>Termasuk admin</small></div>
+<div class="admin-stat"><span>📣 Pengumuman</span><b id="adminNoticeCount">0</b><small>Pengumuman aktif</small></div>
+<div class="admin-stat"><span>⚙️ Status website</span><b id="adminMaintenanceStatus">Aktif</b><small id="adminStatusHint">Siap digunakan</small></div>
+</div>
+<div class="admin-section-label">PENGELOLAAN</div>
+<section class="admin-card"><div class="admin-card-head"><div><h3>👥 Manajemen pengguna</h3><p>Cari akun, buat akun baru, atau hapus akun.</p></div><span class="admin-chip" id="adminVisibleUsers">0 akun</span></div>
+<input aria-label="Cari username" data-event-input="ui-57" id="adminUserSearch" placeholder="🔎 Cari username..."/>
+<div class="admin-inline"><input aria-label="Username (min. 5 karakter)" autocomplete="off" id="adminNewUser" placeholder="Username (min. 5 karakter)"/><input aria-label="Password (min. 7 karakter)" autocomplete="new-password" id="adminNewPass" maxlength="128" minlength="12" placeholder="Password (min. 7 karakter)" type="password"/></div><select aria-label="adminNewRole" id="adminNewRole" style="width:100%;margin:8px 0;padding:12px;border-radius:10px;background:#0d0a18;color:#fff;border:1px solid #59416f"><option value="member">Member</option><option value="reseller">Reseller</option><option value="admin">Admin</option><option value="owner">Owner</option></select>
+<button class="btn-run" data-event-click="ui-58">＋ Buat akun pengguna</button><div class="admin-users" id="adminUsersList"></div>
+</section>
+<section class="admin-card"><div class="admin-card-head"><div><h3>📣 Pengumuman</h3><p>Pesan informasi untuk ditampilkan dan disimpan.</p></div></div><textarea aria-label="Tulis pengumuman untuk pengguna..." id="adminNoticeInput" maxlength="1000" placeholder="Tulis pengumuman untuk pengguna..." rows="4"></textarea><div class="admin-actions"><button class="btn-run" data-event-click="ui-59">Simpan pengumuman</button><button class="admin-toggle" data-event-click="ui-60">Hapus</button></div><div class="admin-preview" id="adminNoticePreview">Belum ada pengumuman.</div></section>
+<div class="admin-section-label">KONTROL WEBSITE</div>
+<section class="admin-card"><h3>⚙️ Pengaturan website</h3>
+<div class="admin-setting"><div><b>Mode maintenance</b><small>Menandai website sedang pemeliharaan</small></div><button class="admin-toggle" data-event-click="ui-61" id="adminMaintenanceBtn">Aktifkan</button></div>
+<div class="admin-setting"><div><b>Tema tampilan</b><small>Ganti tampilan admin terang/gelap</small></div><button class="admin-toggle" data-event-click="ui-62">Ganti tema</button></div>
+<div class="admin-setting"><div><b>Nama website</b><small id="adminSiteNamePreview">XYROPLAY</small></div><button class="admin-toggle" data-event-click="ui-63">Ubah nama</button></div>
+<div class="admin-setting"><div><b>Ekspor data</b><small>Unduh ringkasan data lokal dalam JSON</small></div><button class="admin-toggle" data-event-click="ui-64">Ekspor JSON</button></div>
+<div class="admin-setting"><div><b>Impor cadangan</b><small>Pulihkan pengaturan dari file JSON</small></div><button class="admin-toggle" data-event-click="ui-65">Pilih file</button><input accept="application/json,.json" aria-label="adminImportFile" data-event-change="ui-66" hidden="" id="adminImportFile" type="file"/></div>
+</section>
+<div class="admin-section-label">KEAMANAN &amp; AKTIVITAS</div>
+<section class="admin-card"><div class="admin-card-head"><div><h3>🧾 Riwayat aktivitas</h3><p>Aktivitas admin yang tercatat pada browser ini.</p></div><span class="admin-chip" id="adminActivityCount">0 log</span></div><div class="admin-activity" id="adminActivityList">Belum ada aktivitas.</div><button class="admin-toggle admin-clear-log" data-event-click="ui-67">Bersihkan riwayat</button></section>
+<section class="admin-card admin-danger-card"><h3>⚠️ Zona tindakan penting</h3><p>Gunakan dengan hati-hati. Tindakan ini tidak bisa dibatalkan.</p><button class="admin-danger-btn" data-event-click="ui-68">Reset pengaturan admin lokal</button></section>
+</div>
+<!-- AI WORKER -->
+<div class="page" id="page-ai-worker">
+<button class="back-btn" data-event-click="ui-69">‹ Kembali</button>
+<div class="page-title" id="aiTitle">AI</div>
+<div class="page-subtitle" id="aiDesc"></div>
+<div class="tool-box">
+<label>Tulis pesan:</label>
+<textarea aria-label="Hai..." id="aiInput" placeholder="Hai..." rows="3"></textarea>
+<button class="btn-run" data-event-click="ui-70" id="aiSendBtn">Kirim 🚀</button>
+</div>
+<div class="result-box" id="aiResult">Balasan akan muncul di sini...</div>
+</div>
+</div>
+<div id="bottomNav">
+<div class="nav-item active" data-event-click="ui-71" data-page="home">
+<div class="nav-icon">🏠</div><div class="nav-label">Home</div>
+</div>
+<div class="nav-item" data-event-click="ui-72" data-page="download">
+<div class="nav-icon">⬇️</div><div class="nav-label">Download</div>
+</div>
+<div class="nav-item" data-event-click="ui-73" data-page="tools">
+<div class="nav-icon">🛠️</div><div class="nav-label">Tools</div>
+</div>
+<div class="nav-item" data-event-click="ui-74" data-page="ai">
+<div class="nav-icon">🤖</div><div class="nav-label">AI</div>
+</div>
+<div class="nav-item admin-nav-item" data-event-click="ui-75" data-page="admin" id="adminNavItem" style="display:none">
+<div class="nav-icon">🛡️</div><div class="nav-label">Admin</div>
+</div>
+</div>
+</div>
+<button aria-label="Cari lagu Spotify" id="spotifySearchOpen" title="Cari lagu Spotify" type="button">⌕</button>
+<div aria-label="Pencarian lagu Spotify" aria-modal="true" id="spotifySearchModal" role="dialog">
+<section class="spotify-panel">
+<div class="spotify-panel-head"><h2>♫ Cari Lagu Spotify</h2><button aria-label="Tutup" id="spotifySearchClose" type="button">×</button></div>
+<form class="spotify-search-form" id="spotifySearchForm">
+<input aria-label="Cari judul lagu atau artis..." autocomplete="off" id="spotifyQuery" placeholder="Cari judul lagu atau artis..." required="" type="search"/>
+<button id="spotifySearchSubmit" type="submit">Cari</button>
+</form>
+<div id="spotifySearchStatus">Ketik judul lagu atau nama artis untuk mulai mencari.</div>
+<div id="spotifySearchResults"></div>
+</section>
+</div>
+<div class="xyro-modal" id="deleteAccountModal"><div class="xyro-modal-card"><h3>Hapus akun permanen</h3><p>Akun server, profil dan riwayat lokal akan dihapus. Tindakan ini tidak dapat dibatalkan. Log audit keamanan dapat tetap disimpan pengelola.</p><label for="deletePassword">Password akun</label><input aria-label="deletePassword" autocomplete="current-password" id="deletePassword" maxlength="128" type="password"/><div id="deleteStatus" role="status"></div><div class="xyro-modal-actions"><button class="secondary" data-event-click="ui-76">Batal</button><button data-event-click="ui-77">Hapus permanen</button></div></div></div><div aria-labelledby="recoveryCodeTitle" class="xyro-modal" id="recoveryCodeModal" role="dialog"><div class="xyro-modal-card"><h3 id="recoveryCodeTitle">Simpan kode pemulihan akun</h3><p>Kode ini ditampilkan sekali dan dapat mengganti password. Simpan di tempat pribadi, bukan riwayat chat atau postingan publik. Kami tidak menyimpan salinan teksnya.</p><pre id="recoveryCodeValue" style="white-space:pre-wrap;word-break:break-all;user-select:all"></pre><button id="recoveryCodeDownload" type="button">Simpan kode sebagai file</button><label><input id="recoveryCodeSaved" type="checkbox"/> Saya sudah menyimpan kode ini secara pribadi</label><p id="recoveryCodeStatus" role="status"></p><button disabled="" id="recoveryCodeClose" type="button">Sudah, lanjutkan</button></div></div><div aria-labelledby="rotateRecoveryTitle" class="xyro-modal" id="rotateRecoveryModal" role="dialog"><div class="xyro-modal-card"><h3 id="rotateRecoveryTitle">Ganti kode pemulihan</h3><p>Kode sebelumnya akan berhenti berlaku. Konfirmasi password akun untuk melanjutkan.</p><label for="rotateRecoveryPassword">Password saat ini</label><input autocomplete="current-password" id="rotateRecoveryPassword" maxlength="128" type="password"/><p id="rotateRecoveryStatus" role="status"></p><div class="xyro-modal-actions"><button id="rotateRecoveryCancel" type="button">Batal</button><button id="rotateRecoveryConfirm" type="button">Buat kode baru</button></div></div></div></body>
+</html>
