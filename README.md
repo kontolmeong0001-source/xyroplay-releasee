@@ -95,4 +95,4 @@ APK/AAB signed tidak berarti sudah diterbitkan, lolos review atau semua layanan 
 
 ## Pilihan penyimpanan source
 
-Pengguna mengizinkan repository Public khusus `kontolmeong0001-source/xyroplay-release`, tanpa mengubah visibilitas atau menyentuh repository lama. Unggah hanya setelah repo tujuan dapat diverifikasi dan source beserta riwayat Git lolos pemeriksaan rahasia. Kunci signing dan backup privat tetap di luar repository. Persetujuan ini tidak mengaktifkan layanan Render atau perubahan DNS.
+Pengguna mengizinkan repository Public khusus `kontolmeong0001-source/xyroplay-releasee`, tanpa mengubah visibilitas atau menyentuh repository lama. Unggah hanya setelah repo tujuan dapat diverifikasi dan source beserta riwayat Git lolos pemeriksaan rahasia. Kunci signing dan backup privat tetap di luar repository. Persetujuan ini tidak mengaktifkan layanan Render atau perubahan DNS.
