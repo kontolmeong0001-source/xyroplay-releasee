@@ -4,7 +4,7 @@ Konfigurasi `render.yaml` di root membuat satu Docker Web Service dan memasang *
 
 ## Setup
 
-1. Setelah pemilik menyetujui publikasi dan biaya, gunakan repository Git privat yang dapat diakses Render, lalu pilih **New → Blueprint** dan repository/branch. Review `render.yaml` sebelum menekan apply/create. Jangan menekan apply/create sebelum persetujuan tersebut.
+1. Setelah pemilik menyetujui publikasi dan biaya, gunakan repository Git tujuan yang dapat diakses Render, lalu pilih **New → Blueprint** dan repository/branch. Review `render.yaml` sebelum menekan apply/create. Jangan menekan apply/create sebelum persetujuan tersebut.
 2. Tetapkan nama service unik dan pilih region. Hostname publik Render berbentuk `https://<nama-service>.onrender.com`; hostname itu dibuat oleh Render dan harus digunakan sebagai URL backend. Jangan mengasumsikan nama tertentu sampai service dibuat.
 3. Persistent disk ditentukan di Blueprint pada `/var/lib/xyroplay`, ukuran awal 1 GB. Verifikasi status disk terpasang dan dapat ditulis sebelum mengandalkan data. Jangan menghapus disk saat mengubah konfigurasi. Disk persisten dan filesystem ephemeral bukan hal yang sama.
 4. Simpan `SYNOX_API_KEY` kosong sebagaimana template. Provider API belum aktif; jangan mengisi key atau menganggap fitur provider bekerja. Jangan menaruh rahasia di Git, Dockerfile, atau image.
@@ -37,3 +37,7 @@ Template memilih satu instance `0.5c-512mb`, region Singapore, disk 1 GB, branch
 [Disk persisten hanya tersedia untuk layanan berbayar](https://render.com/docs/disks). Jangan memakai paket gratis dengan SQLite ephemeral untuk akun produksi: akun bisa hilang saat restart/deploy. [Referensi Blueprint](https://render.com/docs/blueprint-spec) menjelaskan ID paket dan pengaturan deployment manual.
 
 Persistent disk bukan backup. Tidak ada scheduler atau backup otomatis yang dikonfigurasi. Buat dan uji prosedur backup serta restore secara manual/terpisah, lindungi backup (database berisi data akun), batasi akses dan retensi. Hindari dua proses/replica yang membuka file SQLite yang sama. Jangan hapus atau detach disk sebagai bagian dari deploy tanpa memahami dampak data. Deploy dan perubahan skema tetap perlu diuji; health check saja tidak membuktikan migrasi atau integritas DB.
+
+## Pilihan repository source terbaru
+
+Pengguna menyetujui source bersih dipublikasikan pada `https://github.com/kontolmeong0001-source/xyroplay-release` bila repository tujuan tersebut benar-benar tersedia dan bisa ditulis. Jangan mengubah visibilitas repository dan jangan menyentuh repository publik lama. Persetujuan repository Public tidak mencakup file signing, backup key, database akun, token atau kredensial; seluruh riwayat yang dikirim harus diperiksa terlebih dahulu. Public berarti source dapat dibaca siapa pun meskipun URL tidak dibagikan. Persetujuan unggah source ini bukan persetujuan biaya/deployment Render maupun perubahan DNS.

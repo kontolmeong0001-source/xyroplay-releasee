@@ -92,3 +92,7 @@ Pemeriksaan server hanya membuktikan endpoint health/capabilities tersedia, **bu
 Identitas/email sudah diberikan dan aplikasi dikonfirmasi baru, belum pernah terbit. Yang masih diperlukan: persetujuan deployment publik dan biaya Render, URL backend sebenarnya, API key baru beserta pemeriksaan izin penyedia, serta akses Play Console. Selain itu: pengujian ponsel/emulator, screenshot Android nyata, feature graphic final, Data safety, rating konten, target usia, kredensial review dan persyaratan testing akun Play perlu dituntaskan sesuai akun/fitur nyata.
 
 APK/AAB signed tidak berarti sudah diterbitkan, lolos review atau semua layanan online aktif. Belum dilakukan audit penetrasi independen dan tidak ada jaminan persetujuan Google Play.
+
+## Pilihan penyimpanan source
+
+Pengguna mengizinkan repository Public khusus `kontolmeong0001-source/xyroplay-release`, tanpa mengubah visibilitas atau menyentuh repository lama. Unggah hanya setelah repo tujuan dapat diverifikasi dan source beserta riwayat Git lolos pemeriksaan rahasia. Kunci signing dan backup privat tetap di luar repository. Persetujuan ini tidak mengaktifkan layanan Render atau perubahan DNS.
