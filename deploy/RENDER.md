@@ -1,5 +1,7 @@
 # Deploy XyroPlay ke Render
 
+> **Status:** Instruksi dan rencana Render di dokumen ini bersifat historis/alternatif; Render bukan deployment aktif. XyroPlay kini live di Netlify dengan PostgreSQL. Gunakan [panduan deployment Netlify](NETLIFY.md) untuk status dan petunjuk yang berlaku; jangan menerapkan rencana Render atau DNS lama.
+
 Konfigurasi `render.yaml` di root membuat satu Docker Web Service dan memasang **persistent disk** di `/var/lib/xyroplay`; SQLite diarahkan ke `/var/lib/xyroplay/xyroplay.sqlite3`. Jangan mengganti ini dengan filesystem container: filesystem di luar disk persisten bersifat ephemeral dan data dapat hilang saat deploy/restart/instance diganti. Persistent disk Render umumnya membatasi service ke satu instance; SQLite tidak cocok untuk beberapa instance/replica atau akses tulis serentak lintas host.
 
 ## Setup

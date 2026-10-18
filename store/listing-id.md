@@ -1,5 +1,7 @@
 # Materi listing XyroPlay — draf
 
+> **Status publikasi:** Kandidat signed APK/AAB 1.1-rc1 (versionCode 3, app ID `id.xyroplay.app`) telah disiapkan, tetapi **belum dipublikasikan ke Google Play**. Listing/data safety, screenshot, dan pengajuan publik final masih menunggu peninjauan. Deployment backend saat ini adalah Netlify + PostgreSQL; rujuk [panduan deployment Netlify](../deploy/NETLIFY.md). Materi di bawah tetap draf dan bukan bukti bahwa aplikasi tersedia di Play Store.
+
 **Nama:** XyroPlay
 
 **Deskripsi singkat:** Alat digital, hasil gambar, dan pencarian dalam satu aplikasi.
@@ -12,7 +14,7 @@ Kontrol akun mencakup logout, penghapusan akun, serta kode pemulihan sekali paka
 
 Fitur online memerlukan koneksi internet dan layanan penyedia yang aktif. Hasil, ketersediaan dan izin penggunaan konten mengikuti layanan penyedia dan pemilik konten. Jangan memasukkan password atau data sensitif ke fitur alat dan AI. Gunakan unduhan hanya untuk konten yang menjadi hakmu atau yang diizinkan pemiliknya.
 
-**Belum boleh disubmit sebelum:** server nyata aktif, kontak pengelola diisi, fitur ditinjau satu per satu dan screenshot Android nyata tersedia. Tidak ada jaminan fitur pihak ketiga atau klaim aktivasi premium.
+**Belum boleh disubmit sebelum:** kontak pengelola diverifikasi, fitur ditinjau satu per satu, deklarasi Data safety/listing diselesaikan, serta screenshot Android nyata tersedia dan ditinjau. Server produksi telah aktif, tetapi itu sendiri bukan persetujuan untuk mengirim aplikasi. Synox masih nonaktif karena API key belum tersedia; sesuaikan klaim fitur dalam draf sebelum submission. Tidak ada jaminan fitur pihak ketiga atau klaim aktivasi premium.
 
 ## Aset
 

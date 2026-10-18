@@ -1,5 +1,9 @@
 # Hasil verifikasi XyroPlay
 
+> **Status saat ini (Netlify):** XyroPlay live di [xyroplay-app.netlify.app](https://xyroplay-app.netlify.app); endpoint produksi [app.xyroplay.web.id](https://app.xyroplay.web.id) telah divalidasi dengan HTTPS. PostgreSQL aktif; 24 pemeriksaan online dan 17 tes Netlify/PostgreSQL terkini lulus. CNAME `app.xyroplay.web.id` → `xyroplay-app.netlify.app` dipasang dengan persetujuan eksplisit; DNS situs utama dan record lainnya tidak diubah. Synox nonaktif karena key tidak tersedia. APK/AAB kandidat bertanda tangan 1.1-rc1 (code 3, `id.xyroplay.app`) telah disiapkan, **belum dipublikasikan ke Google Play**; listing, Data safety, screenshot, dan pengajuan publik final masih menunggu peninjauan. Lihat [panduan deployment Netlify](deploy/NETLIFY.md) untuk status dan rujukan saat ini.
+
+Catatan dan hasil di bawah adalah **bukti historis** dari tahap pengujian/persiapan sebelumnya; status atau rencana Render/VPS/DNS di dalamnya tidak menggambarkan deployment aktif saat ini. Jangan gunakan sebagai instruksi cutover.
+
 ## Yang benar-benar diuji
 
 Backend: `python3 -m pytest -q` menghasilkan **13 lulus**. Cakupan termasuk autentikasi, batas peran, penghapusan akun, kode pemulihan satu kali, rotasi kode, pencabutan sesi dan kapabilitas/proxy tanpa kunci.

@@ -1,36 +1,54 @@
-# XyroPlay — paket Android lanjutan
+# XyroPlay — web aktif dan kandidat Android
 
-## Source Netlify terbaru — belum di-deploy
+## Status saat ini
 
-Pilihan terbaru yang disiapkan adalah frontend statis + JavaScript Functions + PostgreSQL privat untuk Netlify. Source ini disiapkan untuk repo publik yang disetujui pemilik, `kontolmeong0001-source/xyroplay-releasee`. Lihat [`deploy/NETLIFY.md`](deploy/NETLIFY.md) untuk uji lokal, batas kredit database, dan langkah yang tetap memerlukan persetujuan. Backend Flask/SQLite serta rencana Render di bawah tetap merupakan alternatif lama, bukan deployment yang sedang aktif. Situs utama `xyroplay.web.id` tidak diubah; `app.xyroplay.web.id` tetap rencana saja. Unggah source tidak mencakup login atau koneksi hosting, provisioning database cloud, deployment, DNS, maupun pengeluaran.
+Project Netlify **`xyroplay-app` sudah publik** di [xyroplay-app.netlify.app](https://xyroplay-app.netlify.app). Host produksi [app.xyroplay.web.id](https://app.xyroplay.web.id) sudah dikonfigurasi dan HTTPS tervalidasi. Backend JavaScript Netlify Functions memakai **PostgreSQL yang sudah aktif**.
 
-Paket ini melengkapi versi HTML menjadi frontend, backend akun, dan aplikasi Android. **APK dan AAB yang dibagikan adalah build signed untuk pengujian, bukan rilis siap Play Store.** Backend Android masih belum dihubungkan dan fitur pihak ketiga belum aktif. Pengelola publik sudah diisi `xyro`, dengan kontak `agus1234567pa@gmail.com`. Kebijakan privasi masih draf sampai hosting, operasi data dan rilis disetujui.
+CNAME `app.xyroplay.web.id -> xyroplay-app.netlify.app` telah disetujui secara eksplisit dan dipasang. Situs utama `xyroplay.web.id`, `www.xyroplay.web.id`, serta DNS lainnya tetap tidak berubah. Render dan VPS/SQLite dalam panduan lama adalah alternatif, bukan layanan produksi saat ini. Rincian operasional ada di [`deploy/NETLIFY.md`](deploy/NETLIFY.md).
 
-## Sudah dibuat
+Status verifikasi yang telah dilaporkan: **24 pemeriksaan online dan 17 tes Netlify/PostgreSQL lulus**. Tes regresi Python terakhir juga lulus 23 tes. Angka ini mencatat hasil yang sudah tersedia, bukan klaim bahwa tes atau deployment baru dijalankan oleh pembaruan dokumentasi ini.
 
-Password akun di-hash scrypt dengan salt di server, bukan disimpan di localStorage. Tidak ada akun/password admin bawaan. Otorisasi admin diperiksa server. Token sesi acak hanya berada di memori frontend; database menyimpan hash token dan sesi berlaku satu jam.
+Paket Netlify saat ini adalah **Free, 300 kredit/bulan, tanpa kartu dan tanpa auto-top-up**. Ini bukan jaminan penggunaan tanpa batas; perubahan paket, penambahan kartu atau top-up tidak dilakukan oleh pembaruan dokumentasi ini.
 
-Pendaftaran memberi kode pemulihan sekali tampil. Server hanya menyimpan hash kode. Halaman `recovery.html` mengganti password, mengganti kode, dan mencabut seluruh sesi lama. Pengguna yang sudah login dapat mengganti kode dari menu akun setelah mengonfirmasi password. Belum ada email/OTP; kehilangan password sekaligus kode tidak dapat dipulihkan otomatis.
+**Synox masih dinonaktifkan karena API key belum tersedia.** Jangan memakai ulang kunci lama. Hosting aktif tidak berarti semua fitur pihak ketiga sudah aktif.
 
-Penghapusan tersedia dari menu akun dan halaman web `deletion.html`, dengan konfirmasi password. Akun server, sesi dan hash kode pemulihan dihapus. Profil/foto/riwayat lokal harus dibersihkan di setiap perangkat. Log keamanan mempunyai retensi 30 hari; data usang dipangkas saat operasi pembatasan permintaan berikutnya, bukan melalui scheduler yang sudah dipasang.
+## Kandidat Android, belum terbit di Google Play
 
-Android memakai WebViewAssetLoader, HTTPS saja, tanpa `addJavascriptInterface`. Penyimpanan hasil lokal memakai AndroidX WebMessageListener yang dibatasi exact origin dan main frame, validasi tipe/nama/ukuran 10 MiB, serta pemilih lokasi sistem. Promise sukses hanya dikirim setelah stream file ditutup. Dukungan ini telah dibangun dan kebijakannya diuji unit; perilaku pemilih dokumen pada ponsel nyata masih perlu diuji.
+Kandidat **AAB dan APK signed `1.1-rc1`, versionCode `3`, application ID `id.xyroplay.app`** sudah disiapkan. Kandidat tersebut **belum dipublikasikan ke Google Play** dan bukan bukti bahwa review toko sudah selesai. Min SDK 26 dan target SDK 36 tetap menjadi basis proyek.
 
-Toolkit `deploy/` menyediakan Docker Compose, Caddy HTTPS, database persisten dan pemeriksaan kesiapan. Gunicorn tidak dipublikasikan langsung. Skrip backup menggunakan SQLite online backup API dan pemeriksaan integritas, bukan menyalin database hidup begitu saja. Backup tidak otomatis dijadwalkan, dienkripsi atau diunggah.
+Listing, Data safety, screenshot, dan pengajuan publik final masih memerlukan review. Pastikan deklarasi privasi, fitur yang benar-benar aktif, hak penggunaan media/AI, rating konten, target usia, akses review serta persyaratan testing akun Play sesuai keadaan nyata sebelum submission. Pengelola publik adalah `xyro`, dengan kontak `agus1234567pa@gmail.com`.
+
+Status kandidat di atas tidak berarti semua metadata/build default pada source dasar telah diubah. Pembaruan ini hanya dokumentasi: tidak mengubah `release.json`, `web/config.js`, Gradle, kode aplikasi atau paket kandidat. Uji perangkat nyata dan review konfigurasi kandidat tetap penting; AAB tidak dapat dipasang langsung seperti APK.
+
+## Keamanan akun dan data
+
+Password akun di-hash scrypt dengan salt di server. Tidak ada akun/password admin bawaan. Role dan otorisasi diperiksa server, bukan dipercaya dari localStorage. Token sesi acak berada di memori frontend; database menyimpan hash token dan sesi berlaku satu jam.
+
+Pendaftaran memberi kode pemulihan sekali tampil. Server hanya menyimpan hash kode. Pemulihan mengganti password, mengganti kode sekali pakai dan mencabut sesi lama. Belum ada email/OTP; kehilangan password sekaligus kode tidak dapat dipulihkan otomatis.
+
+Penghapusan akun memerlukan konfirmasi password dan menghapus akun, sesi serta hash kode pemulihan. Profil/foto/riwayat lokal harus dibersihkan di setiap perangkat. Rate limit Netlify memakai PostgreSQL bersama. Backup, retensi dan prosedur restore harus ditinjau sebagai operasi tersendiri; skrip backup SQLite lama bukan backup PostgreSQL produksi.
+
+Android memakai WebViewAssetLoader, HTTPS saja dan tanpa `addJavascriptInterface`. Penyimpanan hasil memakai AndroidX WebMessageListener dengan pembatasan origin/frame, validasi tipe/nama/ukuran, serta pemilih lokasi sistem. Perilaku unduhan dan pemilih dokumen tetap perlu diuji pada perangkat nyata.
+
+HTML awal yang mengandung kredensial tidak disalin. Menghapus kunci dari source tidak membatalkan kunci yang pernah bocor; kunci lama harus dicabut di layanan asal dan tidak dipakai ulang. Kunci signing, password, database, backup privat dan token tidak boleh masuk repo publik.
 
 ## Isi proyek
 
-- `web/`: frontend, halaman privasi, pemulihan dan penghapusan akun.
-- `backend/`: API Flask/SQLite, CLI pembuat owner dan tes backend.
-- `android/`: Java/Gradle, kebijakan unduhan dan empat tes unit.
-- `scripts/`: konfigurasi publik, signing, build signed, dan backup.
-- `deploy/`: template VPS/HTTPS serta pemeriksaan rilis.
-- `store/`: ikon PNG dari aset lokal, draf deskripsi toko dan sumber resmi.
-- `VERIFIKASI.md`: pemeriksaan yang dijalankan beserta keterbatasannya.
+- `web/`: frontend dan halaman privasi, pemulihan serta penghapusan akun.
+- `netlify/`: API Functions, koneksi PostgreSQL dan migrasi database untuk arsitektur produksi.
+- `backend/`: alternatif Flask/SQLite dan tes regresinya, bukan backend produksi Netlify.
+- `android/`: source Java/Gradle dan tes kebijakan unduhan.
+- `scripts/`: build, konfigurasi publik, signing serta alat lokal.
+- `deploy/NETLIFY.md`: status Netlify, domain, pengujian dan panduan lokal saat ini.
+- `deploy/README.md`, `deploy/RENDER.md`, `deploy/domain-plan.json`: alternatif atau rencana lama; bukan sumber status DNS/deployment saat ini.
+- `store/`: bahan listing dan referensi yang tetap perlu review sebelum publikasi.
+- `VERIFIKASI.md`: catatan verifikasi sebelumnya beserta keterbatasannya.
 
-HTML awal yang mengandung kredensial tidak disalin. Kunci lama tetap perlu dicabut di layanan asal oleh pemiliknya; menghapus dari source tidak membatalkan kunci yang sudah bocor. Jangan pakai ulang password lama yang pernah tersebar.
+## Menjalankan lokal
 
-## Mencoba akun secara lokal
+Untuk arsitektur yang sama dengan produksi, ikuti [`panduan Netlify lokal`](deploy/NETLIFY.md#menjalankan-lokal): Node 22+, PostgreSQL loopback dan database tes sekali pakai. **Jangan menjalankan tes destruktif pada database produksi.**
+
+Alternatif Flask/SQLite lama masih bisa dijalankan secara lokal:
 
 ```sh
 python3 -m venv .venv
@@ -39,64 +57,14 @@ pip install -r backend/requirements.txt
 python backend/app.py
 ```
 
-Buka `http://127.0.0.1:5000`. Daftar akun dengan username 5–32 karakter dan password 12–128 karakter, lalu simpan kode pemulihan yang ditampilkan. Fitur alat, AI dan musik sengaja menampilkan status belum aktif jika tidak ada API key server.
+Buka `http://127.0.0.1:5000`. Akun SQLite lokal tidak otomatis menjadi akun PostgreSQL produksi. Jangan mengunggah database lokal atau menjalankan migrasi data privat melalui repo publik.
 
-Untuk membuat owner awal, gunakan environment database yang sama dan jalankan:
+## Build dan signing
 
-```sh
-python backend/manage.py create-admin
-```
+Toolchain dasar: JDK 21, Android SDK platform/build-tools 36 dan Gradle Wrapper 8.13. Simpan upload key dan password di luar repo. Jangan memakai key baru untuk memperbarui aplikasi lama tanpa identitas signing yang sesuai/diakui Play Console. Build signed tidak menjamin persetujuan Google Play.
 
-Username/password diminta interaktif; tidak ada password default. Default role owner dapat membuat admin lain. Jangan membuat akun dengan password contoh untuk layanan publik.
+Skrip build dasar yang tersedia tidak otomatis membuktikan paket kandidat identik atau siap submission. Review versi, endpoint produksi, signing dan metadata kandidat sebelum build lanjutan; jangan menandai layanan Synox aktif tanpa key dan pengujian yang sah.
 
-## Mengaktifkan produksi
+## Repo dan batas perubahan
 
-Rencana terbaru adalah backend pada `app.xyroplay.web.id`; situs Netlify yang sudah ada di apex `xyroplay.web.id` dan `www.xyroplay.web.id` tetap berjalan tanpa perubahan. DNS authoritative tetap Netlify/NS1, sementara IDWebhost adalah registrar. Jangan ubah DNS atau nameserver, jangan migrasikan NS, dan jangan deploy. Hanya setelah service tersedia, hostname Render nyata diketahui, dan record final disetujui, rencana DNS terbatas pada CNAME `app` ke hostname Render tersebut. Tidak ada perubahan A apex, penghapusan AAAA apex/www, atau migrasi NS dalam rencana ini. Pemeriksaan publik saat ini mengembalikan NXDOMAIN untuk CNAME/A/AAAA `app.xyroplay.web.id`; ini bukan bukti bahwa seluruh zone Netlify telah diinspeksi. Lihat [`deploy/RENDER.md`](deploy/RENDER.md) dan [`deploy/domain-plan.json`](deploy/domain-plan.json) untuk status/rincian.
-
-Backend produksi direncanakan memakai `https://app.xyroplay.web.id` **hanya setelah backend nyata diverifikasi**. Sampai saat itu `apiBase` harus tetap kosong dan `releaseReady` false; jangan mengisi `release.json` atau `web/config.js`, dan jangan menambahkan `domains` ke `render.yaml` sebelum review. Biaya Render serta blocker izin GitHub belum beres; jangan menganggap layanan sudah dibuat atau aplikasi sudah di-deploy. Tidak ada perubahan DNS atau situs publik yang dilakukan. Template VPS alternatif tetap ada di `deploy/README.md`. Dua repositori publik lama pengguna tidak ditimpa. API key Synox baru belum diberikan dan harus tetap kosong; jangan gunakan kunci lama.
-
-Isi konfigurasi publik setelah data sebenarnya tersedia:
-
-```sh
-python3 scripts/configure_release.py \
-  --backend https://HOSTNAME-ASLI \
-  --operator "NAMA-PENGELOLA-ASLI" \
-  --contact "EMAIL-KONTAK-ASLI"
-python3 deploy/release_preflight.py --online https://HOSTNAME-ASLI
-```
-
-Perintah memperbarui `release.json`, `web/config.js`, dan halaman privasi. **Tidak menerima API key.** API key hanya ada di environment backend. Origin Android diizinkan secara default; jika frontend web terpisah, tambahkan exact origin-nya ke `XYRO_ALLOWED_ORIGINS`, tanpa wildcard. Pada template Caddy, backend mempercayai satu proxy yang menimpa forwarded headers. Jangan mengekspos port 5000 atau menambahkan proxy lain tanpa meninjau ulang kepercayaan ini.
-
-Sesuaikan kebijakan privasi dengan hosting, log, backup dan penyedia yang benar-benar dipakai. Template teknis tidak menggantikan tinjauan hukum atau deklarasi pemilik. Pastikan hak penggunaan downloader, media dan AI. Endpoint yang menjanjikan aktivasi premium pihak ketiga tetap dinonaktifkan.
-
-## Signing dan build Android
-
-Pakai JDK 21, Android SDK platform/build-tools 36, Gradle Wrapper 8.13. Identitas sementara: application ID `id.xyroplay.app`, versionCode `2`, versionName `1.1`. Build uji memakai label `XyroPlay (uji)` dan versi `1.1-test`. Min SDK 26 dan target SDK 36.
-
-Upload key baru dibuat untuk persiapan **aplikasi baru**, bukan pengganti identitas aplikasi yang sudah terbit. Key dan password diserahkan dalam cadangan privat terpisah; tidak disertakan dalam source atau GitHub. Cadangan itu memuat password: jangan bagikan ke publik. Setelah dipindahkan, sesuaikan `XYRO_KEYSTORE` pada `signing.env` ke lokasi aktual `.p12`.
-
-```sh
-export ANDROID_SDK_ROOT=/lokasi/Android/Sdk
-. /folder-privat/signing.env
-./scripts/build_release.sh --test-build
-```
-
-Build produksi menghapus flag uji dan mewajibkan pemeriksaan metadata serta health/capabilities server:
-
-```sh
-./scripts/build_release.sh
-```
-
-Pemeriksaan server hanya membuktikan endpoint health/capabilities tersedia, **bukan** bahwa semua endpoint penyedia sudah diuji. Untuk aplikasi yang sudah terbit, gunakan package ID, versi meningkat dan key yang sesuai/diakui Play Console. Jangan memakai key baru ini untuk menimpa update aplikasi lama tanpa proses resmi.
-
-`android/build-unsigned.sh` tetap tersedia untuk bundle tanpa signing. AAB tidak dapat dipasang langsung seperti APK. File APK uji dapat dipasang untuk meninjau tampilan, tetapi login Android belum aktif sampai backend diisi dan aplikasi dibangun ulang.
-
-## Belum selesai karena memerlukan pemilik/akses nyata
-
-Identitas/email sudah diberikan dan aplikasi dikonfirmasi baru, belum pernah terbit. Yang masih diperlukan: persetujuan deployment publik dan biaya Render, URL backend sebenarnya, API key baru beserta pemeriksaan izin penyedia, serta akses Play Console. Selain itu: pengujian ponsel/emulator, screenshot Android nyata, feature graphic final, Data safety, rating konten, target usia, kredensial review dan persyaratan testing akun Play perlu dituntaskan sesuai akun/fitur nyata.
-
-APK/AAB signed tidak berarti sudah diterbitkan, lolos review atau semua layanan online aktif. Belum dilakukan audit penetrasi independen dan tidak ada jaminan persetujuan Google Play.
-
-## Pilihan penyimpanan source
-
-Pengguna mengizinkan repository Public khusus `kontolmeong0001-source/xyroplay-releasee`, tanpa mengubah visibilitas atau menyentuh repository lama. Unggah hanya setelah repo tujuan dapat diverifikasi dan source beserta riwayat Git lolos pemeriksaan rahasia. Kunci signing dan backup privat tetap di luar repository. Persetujuan ini tidak mengaktifkan layanan Render atau perubahan DNS.
+Source berada di repo publik yang disetujui, [`kontolmeong0001-source/xyroplay-releasee`](https://github.com/kontolmeong0001-source/xyroplay-releasee). Visibilitas dan repo lain tidak diubah. Pembaruan status ini hanya mengubah dokumentasi: tidak melakukan deployment, provisioning database, perubahan DNS atau submission Google Play. Perubahan operasional baru tetap memerlukan persetujuan sesuai cakupannya.

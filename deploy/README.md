@@ -1,5 +1,7 @@
 # Operasional deployment XyroPlay (VPS)
 
+> **Status:** Panduan ini adalah alternatif VPS/historis, bukan prosedur deployment aktif. Deployment saat ini menggunakan Netlify dan PostgreSQL; lihat [panduan Netlify](NETLIFY.md). Jangan mengikuti langkah DNS/deploy VPS di bawah untuk mengubah deployment aktif.
+
 Toolkit ini memakai Docker Compose, backend Flask/Gunicorn privat di jaringan internal, dan Caddy untuk HTTPS otomatis. Tidak ada port Gunicorn yang dipublikasikan. Anda tetap bertanggung jawab menyediakan VPS, DNS, firewall, kredensial provider, dan memantau layanan.
 
 ## Persiapan dan deploy
