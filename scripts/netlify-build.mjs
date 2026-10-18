@@ -1,0 +1,12 @@
+import { mkdir, rm, copyFile, access, readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+const root = fileURLToPath(new URL('../', import.meta.url));
+const assets = ['index.html','privacy.html','deletion.html','recovery.html','app.js','account-pages.js','app.css','site.css','brand.svg','config.js','events.js','release.js','spotify.js'];
+for (const name of assets) await access(path.join(root, 'web', name));
+const config = await readFile(path.join(root, 'web/config.js'), 'utf8');
+if (!config.includes('"apiBase": ""')) throw Error('Build persiapan harus memakai API same-origin, bukan hostname produksi yang belum disetujui.');
+await rm(path.join(root, 'dist'), { recursive: true, force: true });
+await mkdir(path.join(root, 'dist'));
+for (const name of assets) await copyFile(path.join(root, 'web', name), path.join(root, 'dist', name));
+console.log(`Build lokal: ${assets.length} aset publik disalin. Tidak ada koneksi atau deploy hosting.`);

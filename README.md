@@ -1,5 +1,9 @@
 # XyroPlay — paket Android lanjutan
 
+## Source Netlify terbaru — belum di-deploy
+
+Pilihan terbaru yang disiapkan adalah frontend statis + JavaScript Functions + PostgreSQL privat untuk Netlify. Source ini disiapkan untuk repo publik yang disetujui pemilik, `kontolmeong0001-source/xyroplay-releasee`. Lihat [`deploy/NETLIFY.md`](deploy/NETLIFY.md) untuk uji lokal, batas kredit database, dan langkah yang tetap memerlukan persetujuan. Backend Flask/SQLite serta rencana Render di bawah tetap merupakan alternatif lama, bukan deployment yang sedang aktif. Situs utama `xyroplay.web.id` tidak diubah; `app.xyroplay.web.id` tetap rencana saja. Unggah source tidak mencakup login atau koneksi hosting, provisioning database cloud, deployment, DNS, maupun pengeluaran.
+
 Paket ini melengkapi versi HTML menjadi frontend, backend akun, dan aplikasi Android. **APK dan AAB yang dibagikan adalah build signed untuk pengujian, bukan rilis siap Play Store.** Backend Android masih belum dihubungkan dan fitur pihak ketiga belum aktif. Pengelola publik sudah diisi `xyro`, dengan kontak `agus1234567pa@gmail.com`. Kebijakan privasi masih draf sampai hosting, operasi data dan rilis disetujui.
 
 ## Sudah dibuat
